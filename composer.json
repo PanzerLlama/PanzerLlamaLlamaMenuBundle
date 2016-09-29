@@ -1,5 +1,5 @@
 {
-    "name":         "panzerllama/menu-bundle",
+    "name":         "panzerllama/llama-menu-bundle",
     "type":         "symfony-bundle",
     "description":  "Simple menu for html pages.",
     "keywords":     ["menu"],
@@ -11,7 +11,7 @@
         }
     ],
     "require":      {
-        "symfony/framework-bundle": "~2.0|~3.0"
+        "symfony/framework-bundle": "~2.8|~3.0"
     },
     "require-dev": {
         "symfony/yaml": "~2.0|~3.0",
@@ -20,12 +20,12 @@
     },
     "autoload":     {
         "psr-4": {
-            "PanzerLlama\\MenuBundle\\": ""
+            "PanzerLlama\\LlamaMenuBundle\\": ""
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1.x-dev"
+            "dev-master": "0.2.x-dev"
         }
     }
 }

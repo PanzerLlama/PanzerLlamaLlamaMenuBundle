@@ -1,0 +1,21 @@
+{% for e in menu.elements %}
+    {{ _self.menuElement(e) }}
+{% endfor %}
+{% macro menuElement(e) %}
+    <li role="presentation" class="{{ e.classes()|join(' ') }}"><a href="{{ e.url }}">{{ _self.menuIcon(e) }}{{ e.name }}</a>{% if e.isActive %}<div class="pointer"></div>{% endif %}</li>
+    {% if e.elements and e.isRouted %}
+        {% for se in e.elements %}
+            {{ _self.menuElement(se) }}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+{% macro menuIcon(e) %}
+{% if e.getSubIcon() %}
+<div class="fa-stack">
+    <i class="fa fa-stack-1x {{ e.icon }}"></i>
+    <i class="fa fa-stack-1x text-success fa-subicon {{ e.subicon }}"></i>
+</div>
+{% else %}
+    {% if e.getIcon() %}<span class="fa fa-2x {{ e.icon }}"></span> {% endif %}
+{% endif %}
+{% endmacro %}

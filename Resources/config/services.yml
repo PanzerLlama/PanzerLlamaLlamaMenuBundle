@@ -1,0 +1,10 @@
+services:       
+    llama.menu.service:
+        class: PanzerLlama\LlamaMenuBundle\Service\LlamaMenuService
+        arguments: ["@twig", "@router", "@request_stack"]
+
+    twig.llama.menu.extension:
+        class: PanzerLlama\LlamaMenuBundle\Extension\LlamaMenuExtension
+        arguments: ["@llama.menu.service"]
+        tags:
+            - { name: twig.extension }
