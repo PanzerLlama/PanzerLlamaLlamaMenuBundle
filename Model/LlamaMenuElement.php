@@ -62,7 +62,12 @@ class LlamaMenuElement
     
     public function getAsset($name)
     {
-        return isset($this->assets[$name]) ? $this->assets[$name] : null;
+        return isset($this->assets[$name]) ? (string) $this->assets[$name] : null;
+    }
+    
+    public function hasAsset($name)
+    {
+        return isset($this->assets[$name]) ? true : false; 
     }
     
     public function addRoute($v)
