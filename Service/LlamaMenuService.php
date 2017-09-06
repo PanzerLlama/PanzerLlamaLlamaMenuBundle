@@ -1,8 +1,11 @@
 <?php
 namespace PanzerLlama\LlamaMenuBundle\Service;
 
+use AdminBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 use Twig_Environment as Twig;
 
@@ -15,13 +18,17 @@ class LlamaMenuService
 	private $twig;
     private $router;
     private $requestStack;
-    //private $security;
+    private $authorizationChecker;
+    private $tokenStorage;
 	
-	public function __construct(Twig $twig, Router $router, RequestStack $requestStack)
+	public function __construct(Twig $twig, Router $router, RequestStack $requestStack, AuthorizationCheckerInterface $authorizationChecker, TokenStorage $tokenStorage)
 	{
-        $this->twig         = $twig;
-        $this->router       = $router;
-        $this->requestStack = $requestStack;
+        $this->twig                 = $twig;
+        $this->router               = $router;
+        $this->requestStack         = $requestStack;
+        $this->authorizationChecker = $authorizationChecker;
+        $this->tokenStorage         = $tokenStorage;
+        $this->user                 = $this->tokenStorage->getToken() ? $this->tokenStorage->getToken()->getUser() : null;
 	}
     
     public function renderView(LlamaMenu $menu)
@@ -31,7 +38,8 @@ class LlamaMenuService
     }
     
     private function prepareMenu(LlamaMenu $menu, $route)
-    {        
+    {
+        /** @var LlamaMenuElement $e */
         foreach ($menu->getElements() as $e)
         {
             $this->prepareMenuElement($e, $route);
@@ -40,6 +48,14 @@ class LlamaMenuService
     
     private function prepareMenuElement(LlamaMenuElement $menuElement, $route)
     {
+        if ($menuElement->getRequiredPermissions())
+        {
+            if (!$this->user instanceof User || $this->authorizationChecker->isGranted($menuElement->getRequiredPermissions(), $this->user) === false)
+            {
+                $menuElement->setIsRendered(false);
+            }
+        }
+
         $menuElement->addClass(sprintf('level-%s', $menuElement->getLevel()));       
         
         if ($menuElement->hasRoute($route))

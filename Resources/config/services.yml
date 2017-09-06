@@ -1,7 +1,12 @@
 services:       
     llama.menu.service:
         class: PanzerLlama\LlamaMenuBundle\Service\LlamaMenuService
-        arguments: ["@twig", "@router", "@request_stack"]
+        arguments:
+          - "@twig"
+          - "@router"
+          - "@request_stack"
+          - "@security.authorization_checker"
+          - "@security.token_storage"
 
     twig.llama.menu.extension:
         class: PanzerLlama\LlamaMenuBundle\Extension\LlamaMenuExtension

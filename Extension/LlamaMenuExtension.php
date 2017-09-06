@@ -30,13 +30,20 @@ class LlamaMenuExtension extends \Twig_Extension
                 throw new \Exception(sprintf('Menu class "%s" does not exist.', $className));
             }
             $menu  = new $className($options);
-        } elseif ($options) {
-            $menu->setOptions($options);
+        }
+
+        if ($options)
+        {
+            foreach ($options as $k => $v)
+            {
+                $menu->setOption($k, $v);
+            }
         }
         return $this->menuService->renderView($menu);        
     }
      
-	public function getName() {
+	public function getName()
+    {
 		return 'panzer_llama_llama_menu_extension';
 	}	
 }

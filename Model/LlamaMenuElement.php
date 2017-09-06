@@ -13,6 +13,7 @@ class LlamaMenuElement
     private $level = 1;
     private $menu;
     private $parent;
+    private $required_permissions;
 
     private $classes    = array();
     private $elements   = array();
@@ -20,7 +21,8 @@ class LlamaMenuElement
     private $isRouted   = false;
     private $isActive   = false;
     private $isDisabled = false;
-    
+    private $isRendered = true;
+
     public function setName($v)
     {
         $this->name = $v;
@@ -254,5 +256,27 @@ class LlamaMenuElement
             $this->addClass($this->getMenu()->getOption('disabledClass'));
         }
         return $this->classes;
-    } 
+    }
+
+    public function setRequiredPermissions($requiredFlag)
+    {
+        $this->required_permissions = $requiredFlag;
+        return $this;
+    }
+
+    public function getRequiredPermissions()
+    {
+        return $this->required_permissions;
+    }
+
+    public function setIsRendered($v)
+    {
+        $this->isRendered = $v;
+        return $this;
+    }
+
+    public function getIsRendered()
+    {
+        return $this->isRendered;
+    }
 }

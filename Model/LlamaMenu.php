@@ -4,7 +4,7 @@ namespace PanzerLlama\LlamaMenuBundle\Model;
 class LlamaMenu
 {        
     protected $elements = array();
-    protected $options;
+    protected $options  = array();
     
     public function __construct(array $options = array())
     {
@@ -28,6 +28,12 @@ class LlamaMenu
     public function getOptions()
     {
         return $this->options;
+    }
+
+    public function setOption($name, $value)
+    {
+        $this->options[$name] = $value;
+        return $this;
     }
     
     public function getOption($name)
